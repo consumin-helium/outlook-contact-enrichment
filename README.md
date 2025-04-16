@@ -6,6 +6,7 @@ An Outlook add-in that displays additional contact information for email senders
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [OpenSSL](https://www.openssl.org/)
 
 ## Quick Start
 
@@ -15,29 +16,38 @@ git clone <repository-url>
 cd outlook-contact-enrichment
 ```
 
-2. Start the containers
+2. Generate SSL certificates:
 ```bash
-docker-compose up -d
+# Create ssl directory if it doesn't exist
+mkdir -p ssl
+
+# Generate self-signed certificate and key
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout ssl/nginx.key \
+  -out ssl/nginx.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
 ```
 
-3. Initialize the database:
+3. Build and run the application:
 ```bash
-docker-compose exec backend python seed_db.py
+docker-compose up --build
 ```
 
-4. Install the add-in in Outlook:
-- Go to Outlook settings (⚙️) > View all Outlook settings
-- Navigate to Mail > Customize actions > Add-ins
-- Click "Add a custom add-in" > "Add from URL"
-- Enter: https://localhost:3000/manifest.xml
-- Accept any certificate warnings
+4. Then to start the node server:
+```bash
+cd "Contact Enrichment"
+npm install
+npm dev-server
+```
 
+5. Then to accept the certs:
+```bash
+# Open the browser and navigate to https://localhost:3000 and https://localhost:5000
+# You may see a warning about the certificate not being trusted.
+# Click on "Advanced" and then "Proceed to localhost (unsafe)".
+```
 
-## Usage
-
-1. Open an email in Outlook
-2. Click the "Show Task Pane" button in the ribbon
-3. Login with test credentials:
-   - Email: test@example.com
-  - Password: password123
-4. The add-in will display contact information for the email sender
+6. Open Outlook and load the add-in:
+   - In Outlook, go to **File** > **Options** > **Add-ins**.
+   - Click on **Manage COM Add-ins** and then **Go...**.
+   - Click on **Add...** and select the manifest file located in the `manifest` directory.
