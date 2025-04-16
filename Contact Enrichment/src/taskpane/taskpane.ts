@@ -12,6 +12,7 @@ Office.onReady((info) => {
   }
 });
 
+
 async function handleLogin(event: Event) {
   event.preventDefault();
   const statusDiv = document.getElementById('login-status');
