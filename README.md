@@ -12,7 +12,7 @@ An Outlook add-in that displays additional contact information for email senders
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/consumin-helium/outlook-contact-enrichment.git
 cd outlook-contact-enrichment
 ```
 
@@ -48,6 +48,6 @@ npm dev-server
 ```
 
 6. Open Outlook and load the add-in:
-   - In Outlook, go to **File** > **Options** > **Add-ins**.
-   - Click on **Manage COM Add-ins** and then **Go...**.
-   - Click on **Add...** and select the manifest file located in the `manifest` directory.
+   - In Outlook, go to **New Mail** > **Insert** > **Apps** > **Get Add-ins** > **My add-ins**.
+   - Scoll down and click on **Add a custom add-in** and then
+   - Click on **Add from file...** and select the manifest file located in the `Contact Enrichment` directory.
